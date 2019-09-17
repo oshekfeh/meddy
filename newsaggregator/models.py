@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from decouple import config
 import praw #Reddit python library
+from newsapi import NewsApiClient
+from datetime import datetime
 
 # Create your models here.
 
@@ -50,7 +52,17 @@ class NewsAPI(NewsSource):
     objects = NewsAPIManager()
 
     def fetch_news(self):
-        print('Fetch NewsAPI news')
+        newsapi = NewsApiClient(api_key = config('NEWS_API_KEY'))
+        news = newsapi.get_top_headlines(category='general', page_size=25)['articles']
+        return self.__convert_news(news)
+
+    def __convert_news(self, newsapi_posts):
+        news = []
+        for post in newsapi_posts:
+            date_string = post['publishedAt']
+            format_date = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%z')
+            news.append({'headline':post['title'], 'link':post['url'], 'source':'newsapi', 'date':format_date.timestamp()})
+        return news
 
     class Meta:
         proxy = True
