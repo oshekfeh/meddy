@@ -4,7 +4,7 @@ class NewsCollector():
     def __init__(self):
         print("Collector initiated")
 
-    def fetch_news(self):
+    def fetch_news(self, query=None):
         SOURCE_TYPE_TO_CLASS_MAP = {
             'reddit':'Reddit',
             'newsapi':'NewsAPI'
