@@ -2,11 +2,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from newsaggregator.serializers import NewsSerializer
+from newsaggregator.utilites import NewsCollector
 
-# Create your views here.
 @api_view(['GET'])
 def news_list(request):
-    news = [{'headline':'first title', 'link':'first link', 'source':'reddit'},
-            {'headline':'second title', 'link':'second link', 'source':'newsapi'}]
+    query = request.GET.get('query')
+    news = NewsCollector().fetch_news(query)
     results = NewsSerializer(news, many=True).data
     return Response(results)
