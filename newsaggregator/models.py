@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import datetime
+from decouple import config
+import praw #Reddit python library
 
 # Create your models here.
 
@@ -27,7 +29,19 @@ class Reddit(NewsSource):
     objects = RedditManager()
 
     def fetch_news(self):
-        print('Fetch reddit news')
+        reddit = praw.Reddit(client_id = config('REDDIT_CLIENT_ID'),
+            client_secret = config('REDDIT_SECRET'),
+            user_agent = config('REDDIT_USER_AGENT'),
+            username = config('REDDIT_USERNAME'),
+            password = config('REDDIT_PASSWORD'))
+        subreddit = reddit.subreddit('news') #r/news/
+        hot_news = subreddit.hot(limit = 25)
+
+        news_list = []
+        for post in hot_news:
+            news_list.append({'headline':post.title, 'link': post.url, 'source':'reddit', 'date': post.created})
+
+        return news_list
 
     class Meta:
         proxy = True
