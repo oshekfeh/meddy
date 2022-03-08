@@ -23,7 +23,7 @@ django-haystack==2.8.1
 django-hitcount==1.2.2
 django-infinite-scroll-pagination==0.2.0
 django-musette==0.3.2
-django-spirit==0.6.2
+django-spirit==0.12.3
 djangorestframework>=3.9.1
 djangorestframework-jsonapi==2.4.0
 djangorestframework-jwt==1.11.0
