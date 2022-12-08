@@ -4,7 +4,7 @@ asn1crypto==0.24.0
 attrs==18.2.0
 autobahn==18.11.2
 Automat==0.7.0
-certifi==2019.9.11
+certifi==2022.12.7
 cffi==1.12.2
 channels==1.1.8
 chardet==3.0.4
